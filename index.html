@@ -1,0 +1,71 @@
+<!Doctype HTML>
+<html>
+    <head>
+        <title>Foodie App</title>
+        <meta charset="utf-8" />
+        <style>
+            .meal-box{
+                position: relative;
+                background-color: rgb(209,34,65);
+                color: white;
+                height: 100vh;
+                width:100vw;
+            }
+            img{
+                border-top-left-radius:10%;
+                border-top-right-radius:10%;
+            }
+            .container{
+                position: absolute;
+                bottom:20vh;
+                left:35vw;
+                background-color: rgb(209,34,65);
+                height:450px;
+                width:350px;
+                color:white;
+                border-radius:10%;
+                box-shadow: 5px 5px 10px black, -0.5em 0 2em black;
+                margin: 0 auto;
+            }
+            .container:hover{
+                transform: perspective(300px) translateZ(5px);
+            }
+            h1,div{
+                text-align: center;
+            }
+            a{
+                text-decoration: none;
+                font-size: 24px;
+                color:white;
+                border: 2px solid rgb(255,213,2);
+                border-radius:8%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="meal-box">
+</div>
+        <script>
+            let request=new XMLHttpRequest();
+            request.open('GET','https://www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata');
+            request.send();
+            const container=document.querySelector('.meal-box');
+            request.addEventListener('load',function(){
+                const data=JSON.parse(this.responseText);
+                const name=data.meals[0].strMeal;
+                const tag= data.meals[0].strCategory;
+                const pic=data.meals[0].strMealThumb;
+                const url=data.meals[0].strYoutube;
+                const cards=`
+                <div class="container">
+                    <img height='60%' width='100%'src="${pic}"></img>
+                    <h1>${name} - ${tag}</h1>
+                    <a href="${url}" target="_blank">Youtube</a> 
+                </div>
+                `;
+                container.insertAdjacentHTML('afterbegin',cards);
+           });
+           
+        </script>
+    </body>
+</html>
